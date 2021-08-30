@@ -7,12 +7,17 @@ workflows:
       - terraform/fmt:
           checkout: true
           context: terraform
+      - terraform/validate:
+          checkout: true
+          context: terraform
+          requires:
+            - terraform/fmt          
       - terraform/plan:
           checkout: true
           context: terraform
           persist-workspace: true
           requires:
-            - terraform/fmt
+            - terraform/validate
       - hold-apply:
           type: approval
           requires:
